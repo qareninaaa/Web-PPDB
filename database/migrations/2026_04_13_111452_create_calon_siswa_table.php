@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('jenis_kelamin');
             $table->text('alamat');
             $table->string('no_hp');
+            $table->enum('status', ['pending', 'diterima', 'ditolak'])->default('pending');
             $table->timestamps();
         });
     }

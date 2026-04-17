@@ -9,13 +9,16 @@ use App\Models\Pendaftaran;
 
 class CalonSiswa extends Model
 {
-     protected $fillable = [
+    protected $table = 'calon_siswa';
+
+    protected $fillable = [
         'user_id',
         'nisn',
         'nama_lengkap',
         'jenis_kelamin',
         'alamat',
-        'no_hp'
+        'no_hp',
+        'status',
     ];
 
     // Relasi ke user
