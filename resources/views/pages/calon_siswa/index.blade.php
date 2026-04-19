@@ -7,7 +7,7 @@
     <h3 class="fw-bold mb-3">Data Calon Siswa</h3>
 </div>
 
-<a href="{{ route('calon_siswa.create') }}" class="btn btn-primary mb-3">
+<a href="{{ route('siswa.create') }}" class="btn btn-primary mb-3">
     <span class="fas fa-plus"></span> Tambah Calon Siswa
 </a>
 
@@ -19,14 +19,15 @@
                     <th>No</th>
                     <th>NISN</th>
                     <th>Nama Lengkap</th>
-                    <th>JK</th>
+                    <th>Jenis Kelamin</th>
                     <th>No HP</th>
                     <th>Alamat</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($calon_siswa as $item)
+                @foreach ($siswa as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->nisn }}</td>
@@ -35,15 +36,24 @@
                         <td>{{ $item->no_hp }}</td>
                         <td>{{ $item->alamat }}</td>
                         <td>
-                            <a href="{{ route('calon_siswa.edit', $item->id) }}" class="btn text-primary btn-link py-0 px-2 text-decoration-none mx-1">
+                            @if ($item->status == 'Diterima')
+                                <span class="badge bg-success">Diterima</span>
+                            @elseif ($item->status == 'Ditolak')
+                                <span class="badge bg-danger">Ditolak</span>
+                            @else
+                                <span class="badge bg-secondary">Pending</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('siswa.edit', $item->id) }}" class="btn text-primary btn-link py-0 px-2 text-decoration-none mx-1">
                                 <span class="fas fa-edit"></span> Edit
                             </a>
 
-                            <a href="{{ route('calon_siswa.show', $item->id) }}" class="btn text-primary btn-link py-0 px-2 text-decoration-none mx-1">
+                            <a href="{{ route('siswa.show', $item->id) }}" class="btn text-primary btn-link py-0 px-2 text-decoration-none mx-1">
                                 <span class="fas fa-eye"></span> Detail
                             </a>
 
-                            <a href="#" onclick="deleteAction('{{ route('calon_siswa.destroy', $item->id) }}')" class="btn text-danger btn-link py-0 px-2 text-decoration-none mx-1">
+                            <a href="#" onclick="deleteAction('{{ route('siswa.destroy', $item->id) }}')" class="btn text-danger btn-link py-0 px-2 text-decoration-none mx-1">
                                 <span class="fas fa-trash"></span> Hapus
                             </a>
                         </td>
@@ -54,7 +64,7 @@
     </div>
 </div>
 
-<form action="{{ route('calon_siswa.destroy', 0) }}" method="post" id="delete-action" class="d-inline">
+<form action="{{ route('siswa.destroy', 0) }}" method="post" id="delete-action" class="d-inline">
     @csrf
     @method('DELETE')
 </form>

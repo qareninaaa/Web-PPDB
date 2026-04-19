@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\CalonSiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CalonSiswaController extends Controller
 {
     public function index()
     {
-        $calon_siswa = CalonSiswa::all();
-        return view('pages.calon_siswa.index', compact('calon_siswa'));
+        $siswa = CalonSiswa::all();
+        return view('pages.calon_siswa.index', compact('siswa'));
     }
 
     public function create()
@@ -21,88 +22,97 @@ class CalonSiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
             'nisn' => 'required|unique:calon_siswa,nisn',
-        ], [
-            'nama.required' => 'Nama harus diisi.',
-            'nisn.required' => 'NISN harus diisi.',
-            'nisn.unique' => 'NISN sudah digunakan.',
+            'nama_lengkap' => 'required',
+            'jenis_kelamin' => 'required',
+            'no_hp' => 'required',
+            'alamat' => 'required',
         ]);
 
         CalonSiswa::create([
-            'nama' => $request->nama,
+            'user_id' => Auth::id(),
             'nisn' => $request->nisn,
-            'status' => 'pending', // default
+            'nama_lengkap' => $request->nama_lengkap,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'status' => 'pending',
         ]);
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil ditambahkan.');
     }
 
-    public function show(string $id)
+    public function show($id)
     {
-        $calon_siswa = CalonSiswa::findOrFail($id);
-        return view('pages.calon_siswa.show', compact('calon_siswa'));
+        $siswa = CalonSiswa::findOrFail($id);
+        return view('pages.calon_siswa.show', compact('siswa'));
     }
 
-    public function edit(string $id)
+    public function edit($id)
     {
-        $calon_siswa = CalonSiswa::findOrFail($id);
-        return view('pages.calon_siswa.edit', compact('calon_siswa'));
+        $siswa = CalonSiswa::findOrFail($id);
+        return view('pages.calon_siswa.edit', compact('siswa'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $calon_siswa = CalonSiswa::findOrFail($id);
+        $siswa = CalonSiswa::findOrFail($id);
 
         $request->validate([
-            'nama' => 'required',
             'nisn' => 'required|unique:calon_siswa,nisn,' . $id,
+            'nama_lengkap' => 'required',
+            'jenis_kelamin' => 'required',
+            'no_hp' => 'required',
+            'alamat' => 'required',
+            'status' => 'required|in:pending,diterima,ditolak',
         ]);
 
-        $calon_siswa->update([
-            'nama' => $request->nama,
+        $siswa->update([
             'nisn' => $request->nisn,
+            'nama_lengkap' => $request->nama_lengkap,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'status' => $request->status,
         ]);
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil diperbarui.');
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $calon_siswa = CalonSiswa::findOrFail($id);
-        $calon_siswa->delete();
+        $siswa = CalonSiswa::findOrFail($id);
+        $siswa->delete();
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil dihapus.');
     }
 
-    // ================= STATUS =================
+    // ===== STATUS =====
 
     public function diterima()
     {
-        $calon_siswa = CalonSiswa::where('status', 'diterima')->get();
-        return view('pages.calon_siswa.index', compact('calon_siswa'));
+        $siswa = CalonSiswa::where('status', 'diterima')->get();
+        return view('pages.calon_siswa.index', compact('siswa'));
     }
 
     public function ditolak()
     {
-        $calon_siswa = CalonSiswa::where('status', 'ditolak')->get();
-        return view('pages.calon_siswa.index', compact('calon_siswa'));
+        $siswa = CalonSiswa::where('status', 'ditolak')->get();
+        return view('pages.calon_siswa.index', compact('siswa'));
     }
 
     public function terima($id)
     {
-        $calon_siswa = CalonSiswa::findOrFail($id);
-        $calon_siswa->status = 'diterima';
-        $calon_siswa->save();
+        $siswa = CalonSiswa::findOrFail($id);
+        $siswa->update(['status' => 'diterima']);
 
         return redirect()->route('siswa.index')->with('success', 'Calon siswa diterima.');
     }
 
     public function tolak($id)
     {
-        $calon_siswa = CalonSiswa::findOrFail($id);
-        $calon_siswa->status = 'ditolak';
-        $calon_siswa->save();
+        $siswa = CalonSiswa::findOrFail($id);
+        $siswa->update(['status' => 'ditolak']);
 
         return redirect()->route('siswa.index')->with('success', 'Calon siswa ditolak.');
     }
