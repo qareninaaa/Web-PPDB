@@ -16,7 +16,7 @@ class CalonSiswaController extends Controller
 
     public function create()
     {
-        return view('pages.calon_siswa.create');
+        
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class CalonSiswaController extends Controller
             'jenis_kelamin' => $request->jenis_kelamin,
             'no_hp' => $request->no_hp,
             'alamat' => $request->alamat,
-            'status' => 'pending',
+            'status' => $request->status,
         ]);
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil ditambahkan.');
@@ -50,8 +50,7 @@ class CalonSiswaController extends Controller
 
     public function edit($id)
     {
-        $siswa = CalonSiswa::findOrFail($id);
-        return view('pages.calon_siswa.edit', compact('siswa'));
+    
     }
 
     public function update(Request $request, $id)

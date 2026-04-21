@@ -50,10 +50,6 @@
                 <td colspan="2">
                     <a href="{{ route('siswa.index') }}" class="btn btn-primary">Kembali</a>
 
-                    <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-secondary">
-                        Edit
-                    </a>
-
                     <form action="{{ route('siswa.destroy', $siswa->id) }}" 
                           method="POST" 
                           style="display:inline;">

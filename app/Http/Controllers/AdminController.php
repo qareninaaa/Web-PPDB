@@ -18,6 +18,7 @@ class AdminController extends Controller
     public function create()
     {
         return view('pages.admin.create');
+        
     }
 
     public function store(Request $request)

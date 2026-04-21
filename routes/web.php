@@ -17,8 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ubah-password', [App\Http\Controllers\HomeController::class, 'password'])->name('password.index');
     Route::post('/ubah-password', [App\Http\Controllers\HomeController::class, 'password_update'])->name('password.update');
 
-    
-    Route::resource('/admin', App\Http\Controllers\AdminController::class)->only('index', 'show', 'destroy');
+    Route::resource('/admin', App\Http\Controllers\AdminController::class);
 
     Route::get('/siswa/diterima', [App\Http\Controllers\CalonSiswaController::class, 'diterima'])->name('siswa.diterima');
     Route::get('/siswa/ditolak', [App\Http\Controllers\CalonSiswaController::class, 'ditolak'])->name('siswa.ditolak');

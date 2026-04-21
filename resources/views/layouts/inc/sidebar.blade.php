@@ -19,27 +19,11 @@
           </a>
         </li>
 
-        <!-- Data Pendaftar -->
+        <!-- Data Pendaftar (SEMUA + FILTER DI DALAM) -->
         <li class="nav-item {{ Route::is('siswa.*') ? 'active' : '' }}">
           <a href="{{ route('siswa.index') }}">
             <i class="fas fa-user-graduate"></i>
             <p>Data Pendaftar</p>
-          </a>
-        </li>
-
-        <!-- Siswa Diterima -->
-        <li class="nav-item {{ Route::is('siswa.diterima') ? 'active' : '' }}">
-          <a href="{{ route('siswa.diterima') }}">
-            <i class="fas fa-check-circle"></i>
-            <p>Siswa Diterima</p>
-          </a>
-        </li>
-
-        <!-- Siswa Ditolak -->
-        <li class="nav-item {{ Route::is('siswa.ditolak') ? 'active' : '' }}">
-          <a href="{{ route('siswa.ditolak') }}">
-            <i class="fas fa-times-circle"></i>
-            <p>Siswa Ditolak</p>
           </a>
         </li>
 
